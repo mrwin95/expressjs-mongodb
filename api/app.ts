@@ -9,7 +9,8 @@ import { CommonRoutesConfig } from "./common/common.routes.config";
 import { UsersRoutes } from "./users/users.routes.config";
 
 import debug from "debug";
-
+import mongooseService from "./common/services/mongoose.service";
+import connectDB from "./common/services/db";
 const app: Application = express();
 
 const server: http.Server = http.createServer(app);
@@ -40,6 +41,8 @@ routes.push(new UsersRoutes(app));
 
 const runningMessage = `Server is running at http://localhost:${port}`;
 
+// connectDB();
+mongooseService.connectWithRetry();
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send(runningMessage);
 });
